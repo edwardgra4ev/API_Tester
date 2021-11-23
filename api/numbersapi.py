@@ -31,10 +31,10 @@ class BaseNumberAPI(object):
         except TypeError:
             raise ValidationError("number cannot be converted to a int")
 
-    def _print_testing_response(self, result):
+    def _print_testing_response(self, result, method: str):
         """Функиця вывода результата тестирования в консоль"""
         console = Console()
-        console.print("Результат тестирования метода Trivia для NumberAPI:", style="bold white")
+        console.print(f"Результат тестирования метода {method} для NumberAPI:", style="bold white")
         for key, values in result.items():
             if values[1] is True:
                 console.print(f"{key}: {values[0]}", style="bold green")
@@ -144,7 +144,7 @@ class Trivia(BaseNumberAPI):
         if isinstance(result, str):
             return result
         else:
-            self._print_testing_response(result)
+            self._print_testing_response(result, "Trivia")
 
 
 class Math(BaseNumberAPI):
@@ -181,7 +181,7 @@ class Math(BaseNumberAPI):
         if isinstance(result, str):
             return result
         else:
-            self._print_testing_response(result)
+            self._print_testing_response(result, "Match")
 
 
 class Date(BaseNumberAPI):
@@ -251,7 +251,7 @@ class Date(BaseNumberAPI):
         if isinstance(result, str):
             return result
         else:
-            self._print_testing_response(result)
+            self._print_testing_response(result, "Date")
 
 
 class ValidationError(BaseException):
