@@ -1,0 +1,396 @@
+{
+	"info": {
+		"_postman_id": "c4d0f41f-a5fd-4973-a2a5-eed9c176bfa0",
+		"name": "API Tester",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Numbers API",
+			"item": [
+				{
+					"name": "Random",
+					"item": [
+						{
+							"name": "random/trivia",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://numbersapi.com/random/trivia",
+									"protocol": "http",
+									"host": [
+										"numbersapi",
+										"com"
+									],
+									"path": [
+										"random",
+										"trivia"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "random/year",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://numbersapi.com/random/year",
+									"protocol": "http",
+									"host": [
+										"numbersapi",
+										"com"
+									],
+									"path": [
+										"random",
+										"year"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "random/date",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://numbersapi.com/random/date",
+									"protocol": "http",
+									"host": [
+										"numbersapi",
+										"com"
+									],
+									"path": [
+										"random",
+										"date"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "random/math",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://numbersapi.com/random/math",
+									"protocol": "http",
+									"host": [
+										"numbersapi",
+										"com"
+									],
+									"path": [
+										"random",
+										"math"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Trivia",
+					"item": [
+						{
+							"name": "Получить результат по номеру",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://numbersapi.com/1/trivia",
+									"protocol": "http",
+									"host": [
+										"numbersapi",
+										"com"
+									],
+									"path": [
+										"1",
+										"trivia"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Получить результат по рандомному числу",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"function getRandomInRange(min, max) {\r",
+											"  return Math.floor(Math.random() * (max - min + 1)) + min;\r",
+											"}\r",
+											"\r",
+											"let number = getRandomInRange(1, 100);\r",
+											"\r",
+											"pm.variables.set(\"number\", number);"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var result_text = pm.response.text();\r",
+											"var number = pm.variables.get(\"number\")\r",
+											"\r",
+											"// Код ответа\r",
+											"pm.test(\"Статус код 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test('Кодовое имя статуса равно \"OK\"', function () {\r",
+											"    pm.response.to.have.status(\"OK\");\r",
+											"});\r",
+											"\r",
+											"\r",
+											"// Есть ли ответ на это число\r",
+											"pm.test(`Результат по числу ${number} найден`, function () {\r",
+											"    if (result_text == `${number} is a number for which we're missing a fact (submit one to numbersapi at google mail!).`){\r",
+											"        pm.expect.fail(\"false\")\r",
+											"    }\r",
+											"    else if(result_text == `${number} is an uninteresting number.`) {\r",
+											"        pm.expect.fail(\"false\")\r",
+											"    }\r",
+											"    else if(result_text == `${number} is a boring number.`) {\r",
+											"        pm.expect.fail(\"false\")\r",
+											"    }\r",
+											"    else if(result_text == `${number} is an unremarkable number.`) {\r",
+											"        pm.expect.fail(\"false\")\r",
+											"    } \r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://numbersapi.com/{{number}}/trivia",
+									"protocol": "http",
+									"host": [
+										"numbersapi",
+										"com"
+									],
+									"path": [
+										"{{number}}",
+										"trivia"
+									]
+								},
+								"description": "Создает рандомное целое число при помощи функции `getRandomInRange` в указаном диапазоне, функция расположенна в `Pre-request Script` и отправляет запрос на API `trivia`. \nОтвет от API проходит тестирование на `Статус код 200`,  `Кодовое имя статуса равно \"OK\"` а также `Есть ли результат по числу которое мы отправили`"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Math",
+					"item": [
+						{
+							"name": "Получить результат по номеру",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://numbersapi.com/1/math",
+									"protocol": "http",
+									"host": [
+										"numbersapi",
+										"com"
+									],
+									"path": [
+										"1",
+										"math"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Получить результат по рандомному числу",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"function getRandomInRange(min, max) {\r",
+											"  return Math.floor(Math.random() * (max - min + 1)) + min;\r",
+											"}\r",
+											"\r",
+											"let number = getRandomInRange(1, 100);\r",
+											"\r",
+											"pm.variables.set(\"number\", number);"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var result_text = pm.response.text();\r",
+											"var number = pm.variables.get(\"number\")\r",
+											"\r",
+											"// Код ответа\r",
+											"pm.test(\"Статус код 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test('Кодовое имя статуса равно \"OK\"', function () {\r",
+											"    pm.response.to.have.status(\"OK\");\r",
+											"});\r",
+											"\r",
+											"\r",
+											"// Есть ли ответ на это число\r",
+											"pm.test(`Результат по числу ${number} найден`, function () {\r",
+											"    if (result_text == `${number} is a number for which we're missing a fact (submit one to numbersapi at google mail!).`){\r",
+											"        pm.expect.fail(\"false\")\r",
+											"    }\r",
+											"    else if(result_text == `${number} is an uninteresting number.`) {\r",
+											"        pm.expect.fail(\"false\")\r",
+											"    }\r",
+											"    else if(result_text == `${number} is a boring number.`) {\r",
+											"        pm.expect.fail(\"false\")\r",
+											"    }\r",
+											"    else if(result_text == `${number} is an unremarkable number.`) {\r",
+											"        pm.expect.fail(\"false\")\r",
+											"    } \r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://numbersapi.com/{{number}}/math",
+									"protocol": "http",
+									"host": [
+										"numbersapi",
+										"com"
+									],
+									"path": [
+										"{{number}}",
+										"math"
+									]
+								},
+								"description": "Создает рандомное целое число при помощи функции `getRandomInRange` в указаном диапазоне, функция расположенна в `Pre-request Script` и отправляет запрос на API `trivia`. \nОтвет от API проходит тестирование на `Статус код 200`,  `Кодовое имя статуса равно \"OK\"` а также `Есть ли результат по числу которое мы отправили`"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Date",
+					"item": [
+						{
+							"name": "Получить результат по номеру",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://numbersapi.com/1/math",
+									"protocol": "http",
+									"host": [
+										"numbersapi",
+										"com"
+									],
+									"path": [
+										"1",
+										"math"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Получить результат по рандомному числу",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"function getRandomInRange(min, max) {\r",
+											"  return Math.floor(Math.random() * (max - min + 1)) + min;\r",
+											"}\r",
+											"\r",
+											"let number = getRandomInRange(1, 100);\r",
+											"\r",
+											"pm.variables.set(\"number\", number);"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var result_text = pm.response.text();\r",
+											"var number = pm.variables.get(\"number\")\r",
+											"\r",
+											"// Код ответа\r",
+											"pm.test(\"Статус код 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test('Кодовое имя статуса равно \"OK\"', function () {\r",
+											"    pm.response.to.have.status(\"OK\");\r",
+											"});\r",
+											"\r",
+											"\r",
+											"// Есть ли ответ на это число\r",
+											"pm.test(`Результат по числу ${number} найден`, function () {\r",
+											"    if (result_text == `${number} is a number for which we're missing a fact (submit one to numbersapi at google mail!).`){\r",
+											"        pm.expect.fail(\"false\")\r",
+											"    }\r",
+											"    else if(result_text == `${number} is an uninteresting number.`) {\r",
+											"        pm.expect.fail(\"false\")\r",
+											"    }\r",
+											"    else if(result_text == `${number} is a boring number.`) {\r",
+											"        pm.expect.fail(\"false\")\r",
+											"    }\r",
+											"    else if(result_text == `${number} is an unremarkable number.`) {\r",
+											"        pm.expect.fail(\"false\")\r",
+											"    } \r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://numbersapi.com/{{number}}/math",
+									"protocol": "http",
+									"host": [
+										"numbersapi",
+										"com"
+									],
+									"path": [
+										"{{number}}",
+										"math"
+									]
+								},
+								"description": "Создает рандомное целое число при помощи функции `getRandomInRange` в указаном диапазоне, функция расположенна в `Pre-request Script` и отправляет запрос на API `trivia`. \nОтвет от API проходит тестирование на `Статус код 200`,  `Кодовое имя статуса равно \"OK\"` а также `Есть ли результат по числу которое мы отправили`"
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	]
+}
